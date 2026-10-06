@@ -1,3 +1,5 @@
+[🇮🇷 فارسی](README.fa.md) · 🇬🇧 **English**
+
 # 🎬 Universal AI Video Editor
 
 **Turn a simple idea into a professionally planned and edited video.**
