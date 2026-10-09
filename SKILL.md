@@ -286,6 +286,91 @@ These are starting principles, not rigid templates.
 
 ---
 
+## Global visual template and design system
+
+Use one consistent, reusable visual template across every video in the same creator/brand series. Adapt imagery and accent colors to the topic, but do not reinvent the layout, typography scale, watermark placement, card language, or motion behavior for every scene. If no brand system is supplied, use the following default and keep it consistent throughout the video.
+
+### Persistent creator ID
+
+- Display `XodeOMiD` in the **top-right corner** by default, unless the user provides a different handle or asks to omit it.
+- Treat it as a small, quiet watermark/social tag: legible but never competing with the main content.
+- Keep its position, size, inset, opacity, and style consistent across all shots.
+- Respect platform UI/safe zones; if top-right is obscured by platform controls, move it only enough to remain visible and use the same adjusted position throughout.
+- Never let the handle collide with captions, titles, faces, or important UI.
+
+### Apple-inspired UI components
+
+Use an **iOS / Apple Human Interface Guidelines-inspired component language** for designed UI elements: restrained rounded cards, clear hierarchy, generous spacing, SF-like system typography where legally/technically available, thin separators, subtle materials, native-feeling toggles/pills, and purposeful blur. Use actual Apple/iOS assets only when available and permitted; otherwise create original components inspired by the principles, not copied screenshots or misleading native UI.
+
+Prefer a small reusable component set:
+- rounded information card
+- compact pill / status badge
+- section title + supporting label
+- callout / tooltip
+- progress or step indicator
+- metric / statistic tile
+- clean chart / diagram
+- minimal device or app frame
+- subtle top-right creator tag
+
+Do not introduce a new component style in every scene. Reuse the same corner radius, border treatment, spacing, shadow softness, icon weight, and animation language. Topic-specific visual elements may vary.
+
+### Typography and layout tokens
+
+Set a type scale before editing and use it consistently. For a 1080×1920 vertical video, start with these ranges and adjust only when content demands it:
+
+- Hero headline: 64–88 px, usually no more than 2 lines
+- Section / card heading: 42–56 px
+- Body / explanation: 30–38 px
+- Supporting label: 24–30 px
+- Persistent handle / tiny metadata: 22–26 px
+- Subtitles: 36–48 px, usually 1–2 lines
+
+These are starting points, not permission to force text into a box. Scale proportionally for other resolutions. Avoid placing multiple oversized text blocks in the same shot. Use no more than two font families and three main weights unless a clear design reason exists.
+
+### Strict component bounds and safe layout
+
+Every text or graphic element must have a defined bounding box and remain inside its assigned card/section. Before final render, inspect every scene at full frame and at phone size.
+
+- Keep a minimum 8% inset from the frame edges for essential content; increase it where platform overlays require.
+- Set explicit maximum width/height for each text block.
+- Use wrapping, line limits, or a smaller type size before allowing overflow.
+- Never allow text, subtitles, icons, shadows, or motion trails to spill outside a card or section unintentionally.
+- Keep consistent internal padding; default to generous spacing rather than filling every empty area.
+- Do not place text over busy footage without a readable backing surface, gradient, or contrast treatment.
+- When content does not fit, rewrite or shorten it first; do not simply shrink it until unreadable.
+- Check RTL text shaping, mixed Persian/Latin terms, punctuation, and line breaks separately.
+
+### Color, contrast, and glow discipline
+
+Readable content is more important than luminous styling. Use bright accent colors for small highlights, icons, key words, or edges—not as a full-strength glow around every large/bold text element.
+
+- Main text: neutral white or near-white on dark backgrounds, or deep neutral text on light backgrounds.
+- Supporting text: slightly muted but still clearly readable.
+- Accent: reserve saturated neon/gradient for short highlights, not long sentences.
+- Large/bold text must not bloom, glow, or saturate so strongly that letter shapes blur. Keep text glow off by default; if used, keep it subtle.
+- Prefer a restrained translucent panel or soft shadow to improve readability instead of increasing glow.
+- Check contrast over every frame behind the text, not only on a still frame.
+- Never sacrifice legibility for a more dramatic color grade.
+
+### Motion consistency and easing
+
+All designed UI and typography animations must feel soft, intentional, and consistent. Avoid abrupt linear movement, overshoot-heavy presets, jitter, or constant motion.
+
+- Use smooth ease-in-out / cubic-bezier-like easing for most entrances and exits.
+- Typical UI entrance: 300–550 ms; subtle micro-interaction: 180–280 ms; scene transition: 400–800 ms when the story allows.
+- Prefer opacity + a small 12–28 px translation or a restrained 0.96→1 scale over large bounces.
+- Animate related elements with consistent timing and short stagger intervals; never animate every object independently.
+- Use spring motion only for elements that benefit from a tactile, native feel, and keep it damped.
+- Keep camera motion, card motion, subtitles, and transitions from competing at once.
+- Respect motion-reduction/accessibility needs when the target platform supports it.
+
+### Mandatory layout QA
+
+Before rendering, run a scene-by-scene visual audit: detect clipped/overflowing text, cards with inconsistent padding, titles touching edges, overlapping elements, unreadable contrast, subtitle collisions, and inconsistent component sizes. Fix the composition itself—do not treat a quick crop as the default solution. If the editor supports guides, masks, bounding boxes, or overflow indicators, use them. Re-render and inspect again after fixes.
+
+---
+
 ## Script generation
 
 If no script is provided, create one automatically.
@@ -535,26 +620,29 @@ Do not animate every word aggressively.
 
 ---
 
-## Voiceover
+## Voiceover and ElevenLabs handoff
 
-If voice generation is available and narration is needed:
+**Do not generate, synthesize, or fabricate the final voiceover audio.** Instead, prepare a polished, ready-to-paste ElevenLabs narration script and design the edit around that script.
 
-1. choose a voice appropriate to the content
-2. generate natural speech
-3. match energy to the scene
-4. maintain clear pronunciation
-5. vary pacing naturally
-6. avoid robotic delivery
+Deliver:
 
-Examples:
+1. The final narration text, written naturally for the selected language and target duration.
+2. An ElevenLabs-ready version with punctuation, paragraph breaks, and explicit pause cues such as `[pause 0.3s]`, `[pause 0.6s]`, or `[pause 1.0s]`. If the selected ElevenLabs workflow does not interpret bracketed cues, provide a clean TTS version plus a separate timing/pause map.
+3. A timing sheet showing estimated start/end time for each sentence or phrase, intended delivery speed, emphasis words, and the matching visual/scene.
+4. A short voice direction for ElevenLabs: language/accent, age impression, energy, emotional tone, and pacing. Never assume a specific voice ID unless the user provides one.
 
+Write for speech, not for reading: use concise sentences, natural phrasing, pronounceable abbreviations, and enough breathing room. Do not overload the script to fit a duration.
+
+When an ElevenLabs-generated audio file is supplied, import it into the edit, align scenes and subtitles to the **actual waveform and pauses**, then adjust shot durations to the recording. Do not force the audio into inaccurate timings. If no generated audio file is available, deliver the video/project with a clearly marked voiceover placeholder and the ElevenLabs script/timing sheet; do not pretend the narration has been recorded or mixed.
+
+Voice direction examples:
 - documentary → calm and authoritative
 - advertisement → confident and energetic
 - educational → clear and friendly
 - story → expressive
 - comedy → conversational
 
-If the user provides narration, preserve the user's intended meaning and timing.
+If the user supplies recorded narration, preserve its meaning and synchronize the edit to the actual recording.
 
 ---
 
@@ -708,20 +796,11 @@ Avoid excessive spins, random glitches, and template-like transitions.
 
 ## Branding
 
-Branding is optional unless the user provides a brand.
+Branding is optional unless the user provides a brand. Never invent a brand.
 
-Never invent a brand.
+If a creator handle is known, use one consistent watermark treatment. Default handle: `XodeOMiD`, positioned in the top-right corner, small and restrained, unless the user specifies another handle or asks to omit it. Keep the same inset, scale, opacity, and style across scenes and videos in the same series.
 
-If the user supplies a brand, integrate it subtly through:
-
-- watermark
-- lower third
-- intro
-- outro
-- social label
-- end card
-
-Branding must not compete with the content.
+Branding may also appear through an intro, outro, lower third, or end card when appropriate, but it must not compete with the content. Follow the Global visual template and design system for typography, spacing, component styles, and motion.
 
 ---
 
@@ -1239,16 +1318,26 @@ Before finalizing, inspect:
 - Does the video make sense without hidden context?
 - Is the ending satisfying?
 
-### Visuals
+### Visuals and layout
 - Are visuals relevant?
 - Are there unnecessary shots?
 - Is composition clear?
+- Is every text/graphic element inside its assigned bounding box?
+- Are any cards, titles, subtitles, or effects clipped or overflowing?
+- Are safe margins and platform UI zones respected?
+- Are component spacing, corner radii, and type sizes consistent?
+- Is the top-right creator handle present and consistently placed when applicable?
+- Are large/bold text and accents readable without excessive glow or saturation?
+- Does the UI follow the same restrained iOS-inspired component system?
 
-### Audio
-- Is dialogue clear?
+### Audio and voiceover handoff
+- Is dialogue clear when user-supplied/generated audio is available?
 - Is music too loud?
 - Are SFX distracting?
 - Is there clipping?
+- Was final voice synthesis left to ElevenLabs rather than generated by this skill?
+- Is an ElevenLabs-ready script with pause cues and a phrase-level timing map included?
+- If audio was supplied, are scene cuts and subtitles synced to its actual timing?
 
 ### Subtitles
 - Correct?

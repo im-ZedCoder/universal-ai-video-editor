@@ -314,11 +314,29 @@ The system should fall back to an appropriate readable font when it is not insta
 
 ---
 
+## 🧩 Consistent UI, typography, and motion
+
+The skill uses a reusable visual system across a creator's video series instead of inventing a new layout in every scene. Designed UI components follow restrained **iOS-inspired** principles: rounded cards, clear hierarchy, generous spacing, subtle materials, and consistent iconography.
+
+- Default creator handle: `XodeOMiD` in the top-right corner, kept subtle and consistently positioned unless the user specifies otherwise.
+- Typography uses a defined scale; text and graphics must remain inside their assigned cards and safe areas.
+- Large/bold text must remain readable: avoid excessive neon glow, bloom, or saturated gradients.
+- Every scene receives a layout QA pass for overflow, clipping, overlap, contrast, and subtitle collisions.
+- Animations use smooth, consistent easing and restrained movement rather than abrupt linear motion or excessive bounce.
+
+---
+
+## 🎙️ ElevenLabs voiceover workflow
+
+The skill **does not generate the final voice audio**. It prepares an ElevenLabs-ready narration script with natural punctuation, pause cues, voice direction, and phrase-level timing. If ElevenLabs does not support pause markers directly, the skill also provides a clean TTS script and a separate timing map. Once the user supplies the generated audio, the edit and subtitles are synchronized to its actual waveform and pauses. Without an audio file, the project keeps a clearly marked voiceover placeholder.
+
+---
+
 ## 🎧 Audio
 
 The skill automatically considers:
 
-- voiceover
+- voiceover script and timing handoff (ElevenLabs)
 - dialogue
 - music
 - SFX
